@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import axios from "axios";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,11 +27,15 @@ export default function Login() {
     axios(configuration)
       .then((result) => {
         setLogin(true);
-      })
+        cookies.set("token", result.data.token, {
+          path: "/",
+         
+      });
+      window.location.href = "/auth"      
       .catch((error) => {
         error = new Error();
       });
-  }
+  })
 
     return (
         <>
